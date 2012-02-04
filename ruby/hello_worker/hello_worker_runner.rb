@@ -42,7 +42,7 @@ worker3.schedule(:start_at => 3.minutes.since, :run_every => 60, :run_times => 5
 
 # That's it. Easy to use but lots of power to run 10/100/1000s of tasks
 puts "\nCongratulations you've just queued and scheduled workers in the IronWorker cloud!\n\n"
-puts "Now go to IronWorker.com to view all your jobs running!\n\n"
+puts "Now go to iron.io to view all your jobs running!\n\n"
 
 
 # You can even run the worker locally if you want.
