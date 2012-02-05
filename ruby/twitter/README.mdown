@@ -1,6 +1,6 @@
-# SimpleWorker => Twitter
+# IronWorker => Twitter
 ### Requirements:
-- SimpleWorker keys
+- IronWorker keys
 - Twitter application keys
 
 ### How to obtain your keys
@@ -27,7 +27,7 @@
 11. Grab a cup of tea, then hit F5. You should see this:
 ![Printscreen for step #8](http://rubynerd.net/dropbox/simpleworker/twitter/8.png)
 12. Swap to your <del>weapon of choice</del> text editor
-13. Put your keys into the twitter.yml file, along with SimpleWorker keys, then ```ruby twitter_runner.rb```
+13. Put your keys into the twitter.yml file, along with IronWorker keys, then ```ruby twitter_runner.rb```
 14. Check your Twitter page
 
 

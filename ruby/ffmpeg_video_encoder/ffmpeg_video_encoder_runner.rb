@@ -1,5 +1,7 @@
 require 'yaml'
 require 'iron_worker'
+require 'active_support/core_ext'
+
 require_relative "ffmpeg_video_encoder_worker.rb"
 
 #-------------------------------------------------------------------------
