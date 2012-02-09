@@ -1,12 +1,13 @@
 require 'iron_worker'
-require 'rest-client'
-require 'active_support/core_ext'
 
 class TwitterToHipchatWorker < IronWorker::Base
   
   merge_gem 'hipchat-api'
+  merge_gem 'rest-client'
+  merge_gem 'activesupport', :require=>'active_support/core_ext' # for the 24.hours.ago below1
 
-  attr_accessor :hipchat_api_key, :hipchat_room_name,
+  attr_accessor :hipchat_api_key,
+                :hipchat_room_name,
                 :twitter_keyword
 
   def run
