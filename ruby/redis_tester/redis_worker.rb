@@ -22,15 +22,15 @@ class RedisWorker < IronWorker::Base
 
     # SET
     result = redis.set("price:type", "fresh")
-    log "Set op for \"prince:type\" returned #{result}"
+    log "Set op for \"price:type\" returned #{result}"
 
     # GET
-    result = redis.get("prince:type")
-    log "Set op for \"prince:type\" returned #{result}"
+    result = redis.get("price:type")
+    log "Set op for \"price:type\" returned #{result}"
 
     # DELETE
-    result = redis.del("prince:type")
-    log "Del op for \"prince:type\" returned #{result}"
+    result = redis.del("price:type")
+    log "Del op for \"price:type\" returned #{result}"
     
     log "\nFinished processing RedisWorker.\n\n"
   end
