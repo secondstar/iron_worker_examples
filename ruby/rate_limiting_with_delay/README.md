@@ -1,9 +1,5 @@
-This example will check twitter for search keywords and post to a Hipchat chat room. You can schedule it
-to run recurring if you want get regular tweets to your Hipchat room (see queue.rb for examples).
+This example uses IronWorker's 'delay' feature to limit the rate at which tasks will be executed. It
+queues up up a bunch of tasks with increasing delay. The task in this example will post to a HipChat
+room every 30 seconds.
 
-Update the config.yml and simply queue or schedule the worker by running enqueue.rb.
-
-You can setup API tokens for Hipchat in the Hipchat Group Admin section. Click API tokens and create one.
-Twitter search doesn't require authentication (thankfully because it's much more complicated to
-get a token) so no setup required there.
-
+See enqueue.rb to see how the delay parameter is used.
