@@ -11,8 +11,6 @@ class TwitterToHipchatWorker < IronWorker::Base
                 :twitter_keyword
 
   def run
-    log self.inspect
-
     # Search twitter for our keyword
     twitter_search = RestClient.get "http://search.twitter.com/search.json?q=#{twitter_keyword}%20since:#{24.hours.ago.strftime("%Y-%m-%d")}"
     log 'search=' + twitter_search.inspect
