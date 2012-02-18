@@ -19,10 +19,10 @@ class TwitterToHipchatWorker < IronWorker::Base
     # Now let's post the results to hipchat
     results['results'].each_with_index do |r, i|
       log 'r=' + r.inspect
-      client = HipChat::API.new(hipchat_api_key)
+      hipchat = HipChat::API.new(hipchat_api_key)
       notify_users = false
       log "posting to hipchat: "
-      log client.rooms_message(hipchat_room_name, 'IronWorker', "@#{r['from_user']} tweeted: #{r['text']}", notify_users).body
+      log hipchat.rooms_message(hipchat_room_name, 'IronWorker', "@#{r['from_user']} tweeted: #{r['text']}", notify_users).body
       break if i >= 5
     end
 
