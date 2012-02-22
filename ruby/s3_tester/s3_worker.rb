@@ -36,7 +36,7 @@ class S3Worker < IronWorker::Base
     response = s3.put(@aws_s3_bucket_name, filename, File.open(filepath))
 
     if (response == true)
-      log "Uploading succesful."
+      log "Uploading successful."
       link = s3.get_link(@aws_s3_bucket_name, filename)
       log "\nYou can view the file here on s3:\n" + link
     else
