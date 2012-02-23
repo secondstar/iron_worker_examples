@@ -12,7 +12,7 @@ code.merge_gem 'hipchat-api'
 
 client.codes.create(code)
 
-url = "https://worker-aws-us-east-1.iron.io/2/projects/#{config['iw']['project_id']}/tasks/webhook?code_name=#{code.name}&oauth=#{@config['iw']['token']}"
+url = "https://worker-aws-us-east-1.iron.io/2/projects/#{config['iw']['project_id']}/tasks/webhook?code_name=#{code.name}&oauth=#{config['iw']['token']}"
 
 puts "Add this url to github Service Hooks, Post Receive URLs: "
 puts url
