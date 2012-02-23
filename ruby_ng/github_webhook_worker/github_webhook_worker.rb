@@ -14,5 +14,5 @@ log "webhook_config: #{webhook_config.inspect}"
 hipchat = HipChat::API.new(webhook_config['hipchat']['api_key'])
 
 parsed['commits'].each do |c|
-  log hipchat.rooms_message(webhook_config['hipchat']['room'], 'GithubWebhookWorker', "Rev: <a href=\"#{c['url']}\">#{c['id'][0,9]}</a> - #{c['message']}", true).body
+  log hipchat.rooms_message(webhook_config['hipchat']['room'], 'WebhookWorkerNG', "Rev: <a href=\"#{c['url']}\">#{c['id'][0,9]}</a> - #{c['message']}", true).body
 end
