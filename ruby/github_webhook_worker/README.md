@@ -12,5 +12,5 @@ This shows how to kick off a worker from a webhook. This example uses Github's S
 - Click Test Hook
 - Check the worker status and logs in IronWorker at http://hud.iron.io to ensure it ran successfully.
 
-That's it, now everytime someone commits, it'll execute the GithubWebhookWorker on IronWorker.
+That's it, now everytime someone pushes to your github repo, it'll execute the GithubWebhookWorker on IronWorker.
 
