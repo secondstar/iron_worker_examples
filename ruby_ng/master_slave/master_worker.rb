@@ -1,6 +1,6 @@
 require 'iron_worker_ng'
 
-client = IronWorkerNG::Client.new(@iron_io_project_id, @iron_io_token) # they are magically available inside worker
+client = IronWorkerNG::Client.new(@iron_io_token, @iron_io_project_id) # they are magically available inside worker
 
 log "Queueing slave workers..."
 slaves = @params['slaves']
