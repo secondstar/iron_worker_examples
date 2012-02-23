@@ -1,9 +1,11 @@
 require 'iron_worker'
 require 'cgi'
+require 'yaml'
 
-# bump..
+# bump....
 class GithubWebhookWorker < IronWorker::Base
 
+  merge 'webhook_config.yml'
   merge_gem 'hipchat-api'
 
   def run
@@ -18,10 +20,13 @@ class GithubWebhookWorker < IronWorker::Base
     parsed = JSON.parse(cgi_parsed["payload"][0])
     puts "parsed: " + parsed.inspect
 
-    hipchat = HipChat::API.new("MY_HIPCHAT_API_KEY")
+    webhook_config = YAML.load_file('webhook_config.yml')
+    puts 'webhook_config=' + webhook_config.inspect
+
+    hipchat = HipChat::API.new(webhook_config[:hipchat][:api_key])
 
     parsed["commits"].each do |c|
-      puts hipchat.rooms_message("Test Room", 'WebhookWorker', "Rev: <a href=\"#{c["url"]}\">#{c["id"][0,9]}</a> - #{c["message"]}", true).body
+      puts hipchat.rooms_message(webhook_config[:hipchat][:room], 'WebhookWorker', "Rev: <a href=\"#{c["url"]}\">#{c["id"][0,9]}</a> - #{c["message"]}", true).body
     end
 
   end

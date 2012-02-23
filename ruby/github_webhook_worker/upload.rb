@@ -16,4 +16,5 @@ worker = GithubWebhookWorker.new
 worker.upload
 
 url = "https://worker-aws-us-east-1.iron.io/2/projects/#{@config['iw']['project_id']}/tasks/webhook?code_name=#{worker.class.name}&oauth=#{@config['iw']['token']}"
-puts "Add this url to github Service Hooks, Post Receive URLs: " + url
+puts "Add this url to github Service Hooks, Post Receive URLs: "
+puts url
