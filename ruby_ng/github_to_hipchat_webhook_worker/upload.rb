@@ -6,7 +6,7 @@ config = ExamplesHelper.load_config
 client = IronWorkerNG::Client.new(config['iw']['token'], config['iw']['project_id'])
 
 code = IronWorkerNG::Code::Ruby.new
-code.merge_worker 'github_webhook_worker.rb'
+code.merge_worker 'github_to_hipchat_webhook_worker.rb'
 code.merge_file 'webhook_config.yml'
 code.merge_gem 'hipchat-api'
 
