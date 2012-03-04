@@ -12,7 +12,7 @@ ActionMailer::Base.smtp_settings = {
   :enable_starttls_auto => true
 }
 
-ActionMailer::Base.view_paths << '.' # it should know where to look for templates
+ActionMailer::Base.view_paths = ['.'] # it should know where to look for templates
 
 # ...and deliver some messages
 @params['to'].each do |to|
