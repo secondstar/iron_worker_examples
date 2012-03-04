@@ -44,7 +44,6 @@ worker3.schedule(:start_at => 3.minutes.since, :run_every => 60, :run_times => 5
 puts "\nCongratulations you've just queued and scheduled workers in the IronWorker cloud!\n\n"
 puts "Now go to http://hud.iron.io to view all your jobs running!\n\n"
 
-
 # You can even run the worker locally if you want.
 #-----------------------------------------------------------------------------------------------------#
 #worker4 = HelloWorker.new

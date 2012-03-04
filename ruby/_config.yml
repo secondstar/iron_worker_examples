@@ -137,6 +137,9 @@ email:
     from: somebody@acme.com
     to: somebodyelse@acme.com
 
+loggly:
+    key: my_loggly_key
+
 # Image files and other data files used in the examples
 image_url: "http://fitnessgurunyc.com/wp/wp-content/uploads/2010/12/ironman74.jpg"
 file_name: sample_image.png
