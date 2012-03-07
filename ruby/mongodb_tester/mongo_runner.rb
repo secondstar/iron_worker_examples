@@ -17,15 +17,9 @@ IronWorker.configure do |config|
 end
 
 mw               = MongoWorker.new
-mw.mongo_host   = config_data['mongo2']['host']
-mw.mongo_port   = config_data['mongo2']['port']
-mw.mongo_db_name   = config_data['mongo2']['db_name']
-mw.mongo_username = config_data['mongo2']['username']
-mw.mongo_password = config_data ['mongo2']['password']
 
 # Run the job (with several alternatives included)
 #mw.queue
-
 mw.run_local
 #mw.schedule(:start_at => 2.minutes.since, :run_every => 60, :run_times => 2)
 #mw.queue(:priority=>2)
@@ -36,4 +30,3 @@ mw.run_local
 # Note that wait_until_complete only works with queue (not run_local or schedule).
 status = mw.wait_until_complete
 puts mw.get_log
-
