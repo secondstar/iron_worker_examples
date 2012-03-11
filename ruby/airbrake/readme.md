@@ -1,0 +1,1 @@
+How to send exceptions to Airbrake
