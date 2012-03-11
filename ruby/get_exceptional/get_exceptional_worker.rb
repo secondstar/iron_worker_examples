@@ -1,5 +1,4 @@
 require 'iron_worker'
-require 'rubygems'
 
 class GetExceptionalWorker< IronWorker::Base
 
