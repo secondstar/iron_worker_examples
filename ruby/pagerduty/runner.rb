@@ -8,4 +8,5 @@ IronWorker.configure do |config|
 end
 
 worker = PagerdutyWorker.new
+worker.api_key = YOUR_PAGERDUTY_API_KEY
 worker.queue
