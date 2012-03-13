@@ -17,8 +17,3 @@ echo "task_id = $task_id \n";
 sleep(15);
 $details = $iw->getTaskDetails($task_id);
 print_r($details);
-
-if ($details->status != 'queued'){
-    $log = $iw->getLog($task_id);
-    print_r($log);
-}
