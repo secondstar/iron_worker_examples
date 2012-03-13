@@ -12,8 +12,6 @@ $zipFile = IronWorker::zipDirectory(dirname(__FILE__)."/workers/airbrake", $zipN
 
 $res = $iw->postCode('airbrake.php', $zipName, $name);
 
-$task_id = $iw->postTask($name, $payload);
-echo "task_id = $task_id \n";
-sleep(15);
-$details = $iw->getTaskDetails($task_id);
-print_r($details);
+$payload = array('api_key' => AIRBRAKE_API_KEY);
+
+$iw->postTask($name, $payload);

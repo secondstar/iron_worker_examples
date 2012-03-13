@@ -1,6 +1,7 @@
 <?php
+$payload = getPayload();
 require_once dirname(__FILE__) . '/lib/Airbrake.class.php';
-$brake = new Services_Airbrake('API_Key', 'production', 'curl');
+$brake = new Services_Airbrake($payload->api_key, 'production', 'curl');
 
 // YOUR WORKER CODE HERE
 
