@@ -4,7 +4,7 @@ import pagerduty
 import os
 import shutil
 
-#here we have to include hoover library with worker.
+#here we have to include pagerduty library with worker.
 worker_dir = os.path.dirname(__file__) + '/pagerduty'
 pd_dir = os.path.dirname(pagerduty.__file__)
 shutil.copytree(pd_dir, worker_dir + '/pagerduty') #copy it to worker directory
