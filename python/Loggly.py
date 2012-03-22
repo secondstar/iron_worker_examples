@@ -7,7 +7,7 @@ import hoover
 #here we have to include hoover library with worker.
 worker_dir = os.path.dirname(__file__) + '/loggly'
 hoover_dir = os.path.dirname(hoover.__file__)
-shutil.copytree(hoover_dir, worker_dir + '/airbrakepy') #copy it to worker directory
+shutil.copytree(hoover_dir, worker_dir + '/loggly') #copy it to worker directory
 
 worker = IronWorker(config='config.ini')
 IronWorker.zipDirectory(directory=worker_dir, destination='loggly-py.zip', overwrite=True)
