@@ -1,5 +1,5 @@
 #--
-# Copyright (c) 2011 Chad Arimura
+# Copyright (c) 2012 Chad Arimura
 # Developed for www.iron.io
 #
 # HelloWorker is a very basic worker intended to show how easy it is to queue and run a worker.

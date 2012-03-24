@@ -1,3 +1,19 @@
+#--
+# Developed for www.iron.io
+#
+# PagerdutyWorker is an example worker to show how you can easily trigger a PagerDuty alert
+# when your worker fails.
+#
+# You will need an account at PagerDuty.com
+#
+# Find implementation info here: http://dev.iron.io/worker/articles/integrations/pagerduty
+#
+#
+# THESE EXAMPLES ARE INTENDED AS LEARNING AIDS FOR BUILDING WORKERS TO BE USED AT www.iron.io.
+# THEY CAN BE USED IN YOUR OWN CODE AND MODIFIED AS YOU SEE FIT.
+#
+#++
+
 class PagerdutyWorker < IronWorker::Base
   merge_gem 'httparty'
 
