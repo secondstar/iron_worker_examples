@@ -2,7 +2,7 @@ require 'cgi'
 require 'yaml'
 require 'hipchat-api'
 
-cgi_parsed = CGI::parse(@payload)
+cgi_parsed = CGI::parse(payload)
 log "cgi_parsed: #{cgi_parsed.inspect}"
 
 parsed = JSON.parse(cgi_parsed['payload'][0])
