@@ -2,12 +2,15 @@ require 'cgi'
 require 'yaml'
 require 'hipchat-api'
 
+# the payload we get from github needs to be decoded first
 cgi_parsed = CGI::parse(payload)
 log "cgi_parsed: #{cgi_parsed.inspect}"
 
+# Then we can parse the json
 parsed = JSON.parse(cgi_parsed['payload'][0])
 log "parsed: #{parsed.inspect}"
 
+# Also parse the config we uploaded with this worker for our Hipchat stuff
 webhook_config = YAML.load_file('webhook_config.yml')
 log "webhook_config: #{webhook_config.inspect}"
 
