@@ -1,1 +1,1 @@
-log "What should I do with #{params.inspect}"
+puts "What should I do with #{params.inspect}"
