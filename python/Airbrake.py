@@ -1,6 +1,5 @@
 from iron_worker import *
 
-import os
 import airbrakepy
 import shutil
 
