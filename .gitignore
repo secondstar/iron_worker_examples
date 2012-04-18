@@ -1,3 +1,6 @@
 .idea
+
 /config.ini
+*.log
+/php/code/*.zip
 /IronWorker.class.php

@@ -4,14 +4,8 @@ include("../IronWorker.class.php");
 $name = "sendEmail-php";
 
 $iw = new IronWorker('config.ini');
-$iw->debug_enabled = true;
 
-$zipName = "code/$name.zip";
-
-$zipFile = IronWorker::zipDirectory(dirname(__FILE__)."/workers/batch_emailer", $zipName, true);
-
-$res = $iw->postCode('sendEmail.php', $zipName, $name);
-print_r($res);
+$iw->upload(dirname(__FILE__)."/workers/batch_emailer", 'sendEmail.php', $name);
 
 $payload = array(
     'address' => "",
@@ -34,15 +28,13 @@ for ($i = 1; $i <= 5;$i++){
 
     $task_id = $iw->postTask($name, $payload);
     echo "task_id = $task_id \n";
-    sleep(20);
-    $details = $iw->getTaskDetails($task_id);
+
+    # Wait for task finish
+    $details = $iw->waitFor($task_id);
     print_r($details);
 
-    if ($details->status != 'queued'){
-        $log = $iw->getLog($task_id);
-        echo "log: \n";
-        print_r($log);
-    }
+    $log = $iw->getLog($task_id);
+    echo "Task log:\n $log\n";
 }
 
 
