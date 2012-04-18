@@ -53,6 +53,10 @@ echo "\n--Posting Task----------------------------------------\n";
 $task_id = $iw->postTask($name);
 tolog('post_task', $task_id, true);
 
+echo "\n--Wait For Task----------------------------------------\n";
+$details = $iw->waitFor($task_id);
+tolog('wait_for', $details, true);
+
 echo "\n--Get Task Details------------------------------------\n";
 $details = $iw->getTaskDetails($task_id);
 tolog('task_details', $details, true);

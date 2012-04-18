@@ -7,14 +7,9 @@ $config = parse_ini_file('../config.ini', true);
 
 # Passing array of options instead of config file.
 $iw = new IronWorker($config['iron_worker']);
-$iw->debug_enabled = true;
 
-$zipName = "code/$name.zip";
-
-$zipFile = IronWorker::zipDirectory(dirname(__FILE__)."/workers/PDO", $zipName, true);
-
-$res = $iw->postCode('Pdo.php', $zipName, $name);
-print_r($res);
+# Creating and uploading code package.
+$iw->upload(dirname(__FILE__)."/workers/PDO", 'Pdo.php', $name);
 
 $payload = array(
     'connection'  => $config['pdo'],
@@ -22,13 +17,11 @@ $payload = array(
 );
 
 $task_id = $iw->postTask($name, $payload);
-echo "task_id = $task_id \n";
-sleep(10);
-$details = $iw->getTaskDetails($task_id);
+
+# Wait for task finish
+$details = $iw->waitFor($task_id);
 print_r($details);
 
-if ($details->status != 'queued'){
-    $log = $iw->getLog($task_id);
-    print_r($log);
-}
+$log = $iw->getLog($task_id);
+echo "Task log:\n $log\n";
 

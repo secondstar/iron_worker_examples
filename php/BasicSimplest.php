@@ -5,20 +5,14 @@ $name = "testTaskSimple-php";
 
 $iw = new IronWorker('config.ini');
 
-# Creating zip package.
-$zipName = "code/$name.zip";
-IronWorker::zipDirectory(dirname(__FILE__)."/workers/hello_world_simple", $zipName, true);
-
-# Posting package.
-$res = $iw->postCode('testTaskSimple.php', $zipName, $name);
+# Creating and uploading code package.
+$iw->upload(dirname(__FILE__)."/workers/hello_world_simple", 'testTaskSimple.php', $name);
 
 # Adding new task.
 $task_id = $iw->postTask($name);
-echo "task_id = $task_id \n";
 
-sleep(10);
-
-$details = $iw->getTaskDetails($task_id);
+# Wait for task finish
+$details = $iw->waitFor($task_id);
 print_r($details);
 
 

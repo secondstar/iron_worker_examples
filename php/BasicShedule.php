@@ -4,13 +4,8 @@ include("../IronWorker.class.php");
 $name = "testBasic-Schedule-php";
 
 $iw = new IronWorker('config.ini');
-$iw->debug_enabled = true;
 
-$zipName = "code/$name.zip";
-$files_to_zip = array('testTask.php');
-$zipFile = IronWorker::createZip(dirname(__FILE__)."/workers/hello_world", $files_to_zip, $zipName, true);
-if (!$zipFile) die("Zip file $zipName was not created!");
-$res = $iw->postCode('testTask.php', $zipName, $name);
+$iw->upload(dirname(__FILE__)."/workers/hello_world", 'testTask.php', $name);
 
 $payload = array(
     'key_one' => 'Payload',

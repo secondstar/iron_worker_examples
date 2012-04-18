@@ -4,13 +4,9 @@ include("../IronWorker.class.php");
 $name = "loggly-php";
 
 $iw = new IronWorker('config.ini');
-$iw->debug_enabled = true;
 
-$zipName = "code/$name.zip";
-
-$zipFile = IronWorker::zipDirectory(dirname(__FILE__) . "/workers/loggly", $zipName, true);
-
-$res = $iw->postCode('loggly.php', $zipName, $name);
+# Creating and uploading code package.
+$iw->upload(dirname(__FILE__)."/workers/loggly", 'loggly.php', $name);
 
 for ($i = 1; $i <= 50; $i++)
 {
