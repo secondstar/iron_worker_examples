@@ -16,6 +16,6 @@ ActionMailer::Base.view_paths = ['.'] # it should know where to look for templat
 
 # ...and deliver some messages
 params['to'].each do |to|
-  log "Sending mail from #{params['from']} to #{to}"
+  puts "Sending mail from #{params['from']} to #{to}"
   Mailer.test_email(params['from'], to).deliver!
 end

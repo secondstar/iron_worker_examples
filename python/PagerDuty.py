@@ -1,7 +1,6 @@
-from ironworker import *
+from iron_worker import *
 
 import pagerduty
-import os
 import shutil
 
 #here we have to include pagerduty library with worker.
