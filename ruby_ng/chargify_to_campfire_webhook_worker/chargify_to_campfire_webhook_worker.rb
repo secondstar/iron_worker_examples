@@ -7,8 +7,9 @@ cgi_parsed = CGI::parse(payload)
 puts "cgi_parsed: #{cgi_parsed.inspect}"
 
 # Then we can parse the json
-parsed = JSON.parse(cgi_parsed)
-puts "parsed: #{parsed.inspect}"
+#parsed = JSON.parse(cgi_parsed)
+#puts "parsed: #{parsed.inspect}"
+parsed = cgi_parsed # seems to already be in a hash?
 
 @event = parsed["event"][0]
 
