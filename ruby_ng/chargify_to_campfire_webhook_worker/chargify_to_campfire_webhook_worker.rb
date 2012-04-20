@@ -10,7 +10,7 @@ puts "cgi_parsed: #{cgi_parsed.inspect}"
 parsed = JSON.parse(cgi_parsed)
 puts "parsed: #{parsed.inspect}"
 
-@event = parsed["event"]
+@event = parsed["event"][0]
 
 # Also parse the config we uploaded with this worker for our Hipchat stuff
 webhook_config = YAML.load_file('webhook_config.yml')
