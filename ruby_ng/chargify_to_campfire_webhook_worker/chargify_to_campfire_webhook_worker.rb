@@ -16,9 +16,11 @@ puts "parsed: #{parsed.inspect}"
 webhook_config = YAML.load_file('webhook_config.yml')
 puts "webhook_config: #{webhook_config.inspect}"
 
+campfire_config = webhook_config['campfire']
+
 Broach.settings = {
-    'account' => webhook_config['account'],
-    'token'   => webhook_config['token'],
+    'account' => campfire_config['account'],
+    'token'   => campfire_config['token'],
     'use_ssl' => true
 }
-Broach.speak(webhook_config['room'], @event)
+Broach.speak(campfire_config['room'], @event)
