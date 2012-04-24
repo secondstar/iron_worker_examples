@@ -1,4 +1,5 @@
 require 'iron_worker_ng'
+
 client = IronWorkerNG::Client.new
 
 # let's queue it now
