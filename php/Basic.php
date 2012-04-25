@@ -3,7 +3,7 @@ include("../IronWorker.class.php");
 
 $name = "testBasic-php";
 
-$iw = new IronWorker();
+$iw = new IronWorker('config.ini');
 
 $iw->upload(dirname(__FILE__)."/workers/hello_world", 'testTask.php', $name);
 
