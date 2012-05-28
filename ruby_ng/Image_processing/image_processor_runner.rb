@@ -14,4 +14,11 @@ code.merge_worker 'image_processor.rb'
 # Upload the code package
 client.codes.create(code)
 
-client.tasks.create('ImageProcessor', :aws_access => config_data['aws']['access_key'],:aws_secret => config_data['aws']['secret_key'],:aws_s3_bucket_name => config_data['aws']['s3_bucket_name'],:image_url => config_data['image_url'])
+aws = config_data['aws']
+client.tasks.create(
+    'ImageProcessor',
+    image_url: aws['image_url'],
+    aws_access: aws['access_key'],
+    aws_secret: aws['secret_key'],
+    aws_s3_bucket_name: aws['s3_bucket_name'],
+)

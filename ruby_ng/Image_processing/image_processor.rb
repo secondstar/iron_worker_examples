@@ -95,10 +95,13 @@ end
 def merge_images(col_num, row_num, file_list)
   output_filename = "merged_file.jpg"
   ilg = Magick::ImageList.new
-  col_num.times { |x| il = Magick::ImageList.new
-  row_num.times { |y| il.push(Magick::Image.read(file_list[x][y]).first) }
-  ilg.push(il.append(true)) }
-  ilg.append(false).write(output_filename)
+  col_num.times do |col|
+    il = Magick::ImageList.new
+    row_num.times do |row|
+      il.push(Magick::Image.read(file_list[col][row]).first)
+    end
+    ilg.push(il.append(true))
+  end
   output_filename
 end
 
@@ -108,10 +111,10 @@ def upload_file(filename)
   s3 = Aws::S3Interface.new(@params['aws_access'], @params['aws_secret'])
   s3.create_bucket(@params['aws_s3_bucket_name'])
   response = s3.put(@params['aws_s3_bucket_name'], filename, File.open(filepath))
-  if (response == true)
+  if response == true
     puts "Uploading succesful."
     link = s3.get_link(@params['aws_s3_bucket_name'], filename)
-    puts "\nYou can view the file here on s3:\n" + link
+    puts "\nYou can view the file here on s3:",link
   else
     puts "Error placing the file in s3."
   end
@@ -121,8 +124,10 @@ end
 def download_image
   filename = 'ironman.jpg'
   filepath = filename
-  File.open(filepath, 'wb') do |fo|
-    fo.write open(@params['image_url']).read
+  File.open(filepath, 'wb') do |fout|
+    open(@params['image_url']) do |fin|
+      IO.copy_stream(fin, fout)
+    end
   end
   filename
 end
