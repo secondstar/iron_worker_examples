@@ -11,8 +11,8 @@
 
 # IronWorker credentials
 iw:
-    token: ogIkJ..
-    project_id: 4e..
+    token: ogIkJIiZ7kR_Moe9hVjWwy9itGQ
+    project_id: 4f461546a9fb997c9000007a
 
 # AWS credentials
 # For s3, use an existing bucket name or create one in s3 if it doesn't exist.
@@ -104,8 +104,8 @@ pusher:
     app_id: 10967
 
 twilio:
-    sid: cb5389460bc8... 
-    token: 41c8f9a42ab0f... 
+    sid: AC79b9c7f375384ebd920b28fe4e58b19e
+    token: 0a7dadc067dc734730c32e6cdf4c2fcc
     api_version: 2010-04-01
     from: +SANDBOX
     to: +YOURNUMBER
@@ -131,11 +131,12 @@ gmail:
     password: secret_password
     
 email:
-    domain: somedomain.com
-    username: user_name
-    password: password
-    from: somebody@acme.com
-    to: somebodyelse@acme.com
+    domain: simpleworker.com
+    username: roman@iron.io
+    password: rkon21088!
+    from: roman@iron.io
+    to: rkononov@gmail.com
+    provider: gmail
 
 loggly:
     key: my_loggly_key
