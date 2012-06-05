@@ -135,7 +135,8 @@ email:
     username: user_name
     password: password
     from: somebody@acme.com
-    to: somebodyelse@acme.com
+    to: somebodyelse@gmail.com
+    provider: gmail
 
 loggly:
     key: my_loggly_key
