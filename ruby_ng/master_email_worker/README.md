@@ -1,6 +1,7 @@
 # Master/slave email sender
 
 This is more complex example that show what is the best way to send a tons of emails using IronWorker.
+Command line tool reference could be found here - http://dev.iron.io/worker/reference/cli/
 
 ## Getting started
 

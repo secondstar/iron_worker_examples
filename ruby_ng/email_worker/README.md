@@ -1,6 +1,7 @@
 # email_worker
 
 This is simple example how to send email using IronWorker
+Command line tool reference could be found here - http://dev.iron.io/worker/reference/cli/
 
 ## Getting started
 
