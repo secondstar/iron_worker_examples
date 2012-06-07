@@ -6,7 +6,7 @@ def init_mail(username, password, domain, provider)
       puts "Selected gmail as a provider"
       port = 587
       address = "smtp.gmail.com"
-    else #sendgrid - default
+    when 'sendgrid'
       puts "Selected sendgrid as a provider"
       port = 25
       address = "smtp.sendgrid.net"

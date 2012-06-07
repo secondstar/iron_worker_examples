@@ -1,18 +1,24 @@
 require 'iron_mq'
 require 'iron_worker_ng'
-# Create an IronWorker client
+
 def queue_worker(config_data, to, subject, content)
   puts "Preparing worker params"
+  # Create an IronWorker client
   client = IronWorkerNG::Client.new(:token => config_data['iw']['token'], :project_id => config_data['iw']['project_id'])
   email = config_data['email']
+  #global params
   params = {:username => email['username'],
             :password => email['password'],
             :domain => email['domain'],
-            :from => email['from'],
-            :to => to,
-            :subject => subject,
-            :content => content,
             :provider => email['provider']}
+
+  #individual params
+  params.merge!({
+                    :from => email['from'],
+                    :to => to,
+                    :subject => subject,
+                    :content => content
+                })
 
   #adding iw token and project_id for IronCache if you don't use it you could remove following lines
   params.merge!({:iw_token => config_data['iw']['token'],
