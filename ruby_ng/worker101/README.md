@@ -1,6 +1,7 @@
-# HelloWorker Example
+# Worker 101
 
-This is the simplest example you can find and is a great place to start. It simply logs some output to the worker log.
+This covers most of the core concepts of using IronWorker including loading third party
+dependencies.
 
 1. Be sure you've setup your Iron.io credentials, see main [README.md](https://github.com/iron-io/iron_worker_examples).
 1. Run `iron_worker upload worker101` to upload the worker code package to IronWorker.
