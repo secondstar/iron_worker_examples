@@ -1,1 +1,2 @@
+runtime 'ruby'
 exec 'hello_worker.rb'
