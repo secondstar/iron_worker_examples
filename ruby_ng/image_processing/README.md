@@ -10,4 +10,7 @@ To run this example:
   1. sudo gem install subexec mini_magick aws
 1. From this directory, run: `iron_worker upload image_processor`
 1. Copy the config_example.yml to config.yml and fill it in with your aws credentials
-1. Run `ruby image_processor_runner.rb`
+1. Run `ruby enqueue.rb`
+
+Now go check hud, https://hud.iron.io , find the task and view the log to get the URL's for
+all your images.
