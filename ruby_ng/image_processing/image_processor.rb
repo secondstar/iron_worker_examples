@@ -101,6 +101,7 @@ def merge_images(col_num, row_num, file_list)
       il.push(Magick::Image.read(file_list[col][row]).first)
     end
     ilg.push(il.append(true))
+    ilg.append(false).write(output_filename)
   end
   output_filename
 end
