@@ -1,6 +1,6 @@
 # worker code is common ruby code
 
-puts "Starting HelloWorker at #{Time.now}"
+puts "Starting Ruby HelloWorker at #{Time.now}"
 puts "We got following params #{params}"
 puts "Simulating hard work for 5 seconds..."
 5.times do |i|
