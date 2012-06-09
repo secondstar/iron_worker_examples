@@ -1,6 +1,6 @@
 class Mailer < ActionMailer::Base
   layout 'email'
-  default :from => "chad@iron.io"
+  default :from => "default@somedomain.com"
 
   def hello_world(email)
     mail(:to => email,
