@@ -3,4 +3,4 @@ require_once "phar://../iron_worker.phar";
 
 $worker = new IronWorker();
 
-$worker->upload(dirname(__FILE__), 'hello_worker.php', 'HelloWorker');
+$worker->upload("worker/", 'Pdo.php', "PDO");
