@@ -1,0 +1,7 @@
+gem 'hpricot'
+gem 'iron_worker_ng'
+gem 'iron_cache'
+file 'url_utils.rb'
+runtime "ruby"
+exec "web_spider.rb"
+name 'WebCrawler'
