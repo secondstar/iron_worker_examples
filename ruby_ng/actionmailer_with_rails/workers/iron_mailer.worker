@@ -1,6 +1,6 @@
 runtime "ruby"
 name "IronMailer"
-exec "ironmailer.rb"
+exec "iron_mailer.rb"
 
 dir '../app/models'
 dir '../app/views/mailer'
