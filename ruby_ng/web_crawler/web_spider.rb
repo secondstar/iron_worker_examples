@@ -9,11 +9,29 @@ load 'url_utils.rb'
 
 include UrlUtils
 
-
-
 def process_page(url)
-  @icache.items.put(CGI::escape(url), "processed")
   puts "Processing page #{url}"
+  doc = Hpricot(open(url))
+  #get all img tags on page
+  images = doc/"img"
+  #get all links on page
+  links = doc/"a"
+  #get all css includes
+  css = doc.search("[@type='text/css']")
+  #get image with highest height on page
+  largest_image = doc.search("img").sort_by {|img| img["height"].to_i}[-1]
+  largest_image = largest_image ? largest_image['src'] : 'none'
+  puts "Number of images on page:#{images.count}"
+  puts "Number of css on page:#{css.count}"
+  puts "Number of links on page:#{images.count}"
+  puts "Largest image on page:#{largest_image}"
+  #putting all in cache
+  @icache.items.put(CGI::escape(url), {:status=>"processed",
+                                       :number_of_images=>images.count,
+                                       :largest_image=>CGI::escape(largest_image),
+                                       :number_of_css=>css.count,
+                                       :number_of_links=>links.count}.to_json)
+
 end
 
 def crawl_domain(url, depth)
@@ -26,7 +44,7 @@ def crawl_domain(url, depth)
   puts "FOUND links:#{page_urls.count}"
   page_urls.each_with_index do |page_url,index|
     if urls_on_same_domain?(url, page_url)
-      pages_count = @icache.items.get('pages_count').value || 0
+      pages_count = @icache.items.get('pages_count').value
       puts "Pages scanned:#{pages_count}"
       puts "Page url #{page_url},index:#{index}"
       @icache.items.put('pages_count', pages_count + 1)
@@ -34,6 +52,7 @@ def crawl_domain(url, depth)
       puts "current depth:#{depth}"
       page_from_cache = @icache.items.get(CGI::escape(page_url))
       if page_from_cache.nil?
+        #page not processed yet so lets process it and queue worker if possible
         process_page(page_url)
         queue_worker(depth, page_url) if depth > 1
       else
@@ -45,10 +64,12 @@ def crawl_domain(url, depth)
 end
 
 def queue_worker(depth, page_url)
+  #queueing child worker or processing page in same worker
   workers_count = @icache.items.get('workers_count')
   count = workers_count ? workers_count.value : 0
   puts "Number of workers:#{count}"
   if count < params['max_workers'] - 1
+    #launcing new worker
     @icache.items.put('workers_count', count+1)
     p = {:url => page_url,
               :page_limit => params["page_limit"],
@@ -59,6 +80,7 @@ def queue_worker(depth, page_url)
     }
     @client.tasks.create("WebCrawler", p)
   else
+    #processing in same worker - too many workers running
     crawl_domain(page_url, depth-1)
   end
 end
@@ -110,13 +132,14 @@ def find_urls_on_page(parsed_url, current_url)
   end
   urls_list
 end
-
+#initializing IW an Iron Cache
 @icache = IronCache::Client.new({"token" => params['iw_token'], "project_id" => params['iw_project_id']})
 @client = IronWorkerNG::Client.new(:token => params['iw_token'], :project_id => params['iw_project_id'])
 
+#start crawling
 crawl_domain(params['url'], params['depth']||1)
 
+#decreasing number of workers
 workers_count = @icache.items.get('workers_count')
 count = workers_count ? workers_count.value : 0
-
 @icache.items.put('workers_count', count-1) if count > 0

@@ -13,5 +13,5 @@ This is an example of web crawler that just get all links on given site and foll
 - iw_project_id = iron project id
 
 ### Start crawler
-- upload crawler iron_worker upload web_spider
-- ruby run_crawler.rb
+- upload crawler:  iron_worker upload web_spider
+- queue crawler: ruby run_crawler.rb
