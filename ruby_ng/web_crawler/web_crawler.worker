@@ -1,0 +1,8 @@
+gem 'hpricot'
+gem 'iron_worker_ng'
+gem 'iron_cache'
+gem 'iron_mq'
+file 'url_utils.rb'
+runtime "ruby"
+exec "web_crawler.rb"
+name 'WebCrawler'

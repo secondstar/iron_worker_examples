@@ -1,7 +1,7 @@
 gem 'hpricot'
 gem 'iron_worker_ng'
 gem 'iron_cache'
-file 'url_utils.rb'
+gem 'iron_mq'
 runtime "ruby"
-exec "web_spider.rb"
-name 'WebCrawler'
+exec "page_processor.rb"
+name 'PageProcessor'

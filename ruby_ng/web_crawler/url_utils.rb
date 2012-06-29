@@ -52,4 +52,50 @@ module UrlUtils
     end
     absolute_url
   end
+  def open_url(url)
+    url_object = nil
+    begin
+      url_object = open(url)
+    rescue
+      puts "Unable to open url: " + url
+    end
+    url_object
+  end
+
+  def update_url_if_redirected(url, url_object)
+    if url != url_object.base_uri.to_s
+      return url_object.base_uri.to_s
+    end
+    url
+  end
+
+  def parse_url(url_object)
+    doc = nil
+    begin
+      doc = Hpricot(url_object)
+    rescue
+      puts 'Could not parse url: ' + url_object.base_uri.to_s
+    end
+    puts 'Crawling url ' + url_object.base_uri.to_s
+    doc
+  end
+
+  def find_urls_on_page(parsed_url, current_url)
+    urls_list = []
+    begin
+      parsed_url.search('a[@href]').map do |x|
+        new_url = x['href'].split('#')[0]
+        unless new_url == nil
+          if relative?(new_url)
+            new_url = make_absolute(current_url, new_url)
+          end
+          urls_list.push(new_url)
+        end
+      end
+    rescue
+      puts "could not find links"
+    end
+    urls_list
+  end
+
 end
