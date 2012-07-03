@@ -19,5 +19,5 @@ have the workers run off of these queues.
 - iw_project_id = iron project id
 
 ### Start crawler/page processor
-- upload crawler/page processor:  iron_worker upload web_spider;iron_worker upload page_processor
+- upload crawler/page processor:  iron_worker upload web_crawler;iron_worker upload page_processor
 - queue crawler: ruby run_crawler.rb
