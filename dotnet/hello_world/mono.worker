@@ -1,0 +1,4 @@
+runtime 'binary'
+
+exec 'test.sh'
+file 'test.exe'
