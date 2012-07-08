@@ -1,14 +1,17 @@
-require 'net/http'
-require 'uri'
 require 'open-uri'
-require 'hpricot'
+require 'nokogiri'
 require 'iron_cache'
 require 'iron_mq'
 
+def make_absolute( href, root )
+  return unless href
+  puts "Making absolute:#{href} with root:#{root}"
+  URI.parse(root).merge(URI.parse(href)).to_s rescue nil
+end
 
 def process_images(doc)
   #get all images
-  images = doc/"img"
+  images = doc.css("img")
   #get image with highest height on page
   largest_image = doc.search("img").sort_by { |img| img["height"].to_i }[-1]
   largest_image = largest_image ? largest_image['src'] : 'none'
@@ -18,7 +21,7 @@ end
 
 def process_links(doc)
   #get all links
-  links = doc/"a"
+  links = doc.css("a")
 end
 
 def process_css(doc)
@@ -27,12 +30,12 @@ def process_css(doc)
 end
 
 def process_words(doc)
-  #converting to plain text
-  text = doc.to_plain_text
+  #converting to plain text and removing tags
+  text = doc.text
   #splitting by words
   words = text.split(/[^a-zA-Z]/)
   #removing empty string
-  words.delete_if{|e| e==""}
+  words.delete_if{|e| e.empty?}
   #creating hash
   freqs = Hash.new(0)
   #calculating stats
@@ -42,14 +45,15 @@ end
 
 def process_page(url)
   puts "Processing page #{url}"
-  doc = Hpricot(open(url))
+  doc = Nokogiri(open(url))
   images, largest_image, list_of_images = process_images(doc)
-  links = process_links(doc)
+  #processing links an making them absolute
+  links = process_links(doc).map{|link| make_absolute( link['href'], url )}.compact
   css = process_css(doc)
   words_stat = process_words(doc)
   puts "Number of images on page:#{images.count}"
   puts "Number of css on page:#{css.count}"
-  puts "Number of links on page:#{images.count}"
+  puts "Number of links on page:#{links.count}"
   puts "Largest image on page:#{largest_image}"
   puts "Words frequency:#{words_stat.inspect}"
   #putting all in cache

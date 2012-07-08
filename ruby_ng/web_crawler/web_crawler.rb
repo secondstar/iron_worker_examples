@@ -1,7 +1,5 @@
-require 'net/http'
-require 'uri'
 require 'open-uri'
-require 'hpricot'
+require 'nokogiri'
 require 'iron_worker_ng'
 require 'iron_cache'
 require 'iron_mq'

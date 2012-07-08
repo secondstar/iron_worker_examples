@@ -72,7 +72,7 @@ module UrlUtils
   def parse_url(url_object)
     doc = nil
     begin
-      doc = Hpricot(url_object)
+      doc = Nokogiri::HTML(url_object)
     rescue
       puts 'Could not parse url: ' + url_object.base_uri.to_s
     end

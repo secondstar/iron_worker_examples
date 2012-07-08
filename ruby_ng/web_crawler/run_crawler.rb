@@ -19,4 +19,6 @@ ng_client = IronWorkerNG::Client.new(:token => params['iw_token'], :project_id =
 cache = IronCache::Client.new({"token" => params['iw_token'], "project_id" => params['iw_project_id']})
 cache.items.put('pages_count', 0)
 #launching worker
+puts "Launching crawler"
 ng_client.tasks.create("WebCrawler", params)
+puts "Crawler launched! now open http://hud.iron.io"
