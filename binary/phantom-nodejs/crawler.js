@@ -28,7 +28,7 @@ phantom.create(function(ph) {
         for (i = 0; i < result.length; i++) {
           target_url = result[i];
           // queue personal task for each page
-          client.tasks_create('phantom-node-slave', {url: target_url}, {}, function(error, body) {
+          client.tasks_create('processor', {url: target_url}, {}, function(error, body) {
             return console.log(body);
           });
         }

@@ -1,8 +1,8 @@
 runtime "binary"
-exec "run.sh"
+exec "run-crawler.sh"
 
 # Include the Javascript file that Phantom will execute
-file "nearme.js"
+file "crawler.js"
 dir "node_modules"
 
 # include config file

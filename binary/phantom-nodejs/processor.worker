@@ -1,8 +1,8 @@
 runtime "binary"
-exec "run-slave.sh"
+exec "run-processor.sh"
 
 # Include the Javascript file that Phantom will execute
-file "nearme-slave.js"
+file "processor.js"
 dir "node_modules"
 
 # include config file
