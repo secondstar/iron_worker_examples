@@ -29,11 +29,10 @@ phantom.create(function(ph) {
       if (status !== 'success') {
         console.error('Unable to load the address!');
       } else {
-        page.render(output);
-        console.log("page rendered to " + output);
-        setTimeout(function () {
+        page.render(output, function(){
+          console.log("page rendered to " + output);
           upload_file(output);
-        }, 500);
+        });
       }
       ph.exit();
     });
