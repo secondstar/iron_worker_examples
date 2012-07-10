@@ -23,7 +23,12 @@ if (!url){
 var output = __dirname + '/screenshot.png';
 
 phantom.create(function(ph) {
-  return ph.createPage(function(page) {
+  // failsafe - exit for no reason after 1 minute
+  setTimeout(function () {
+    console.error("Something bad happened.");
+    ph.exit();
+  }, 60000);
+  ph.createPage(function(page) {
     page.viewportSize = { width: 800, height: 800 };
     return page.open(url, function(status) {
       if (status !== 'success') {
@@ -31,16 +36,15 @@ phantom.create(function(ph) {
       } else {
         page.render(output, function(){
           console.log("page rendered to " + output);
-          upload_file(output);
+          upload_file(ph, output);
         });
       }
-      ph.exit();
     });
   });
 });
 
 
-var upload_file = function(file_name){
+var upload_file = function(ph, file_name){
   var file_data = fs.readFileSync(file_name);
   var post_data = querystring.stringify({
     'key' : 'd4864bbac09661b4722f6f02ec2e5146',  // api key
@@ -67,6 +71,7 @@ var upload_file = function(file_name){
       var obj = JSON.parse(response); // imgur answers with json
       var result = obj.upload.links;
       console.dir(result); // this will contain the imgur links (image, imgur page, delete, etc.)
+      ph.exit();
     });
   });
   // post the data
