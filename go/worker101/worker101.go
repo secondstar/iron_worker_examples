@@ -1,118 +1,110 @@
 package main
 
 import (
-        "fmt";
-        "net/http";
-        "net/url";
-        "io";
-        "io/ioutil";
-        "flag";
-        "os";
-        "encoding/json";
-        )
+	"encoding/json"
+	"flag"
+	"fmt"
+	"io"
+	"io/ioutil"
+	"net/http"
+	"net/url"
+	"os"
+)
 
 var d = flag.String("d", "", "Some param")
 var e = flag.String("e", "", "Some param")
 var task_id = flag.String("id", "", "Task id")
 var payload = flag.String("payload", "", "payload")
-var query = "iron.io"
-const queryURI = "http://search.twitter.com/search.%s?q=%s&rpp=%d"
-const outputfmt = "%s\n"
 
+const queryURI = "http://search.twitter.com/search.%s?q=%s&rpp=%d"
 
 // JSON Data Structure
 
 type Payload struct {
-        Query string;
+	Query string `json:"query"`
 }
 
 type JTweets struct {
-        Results []Result;
-        Max_id float32;
-        Since_id int;
-        Refresh_url string;
-        Next_page string;
-        Page int;
-        Completed_in float32;
-        Query string;
-
+	Results     []Result `json:"results"`
+	MaxId       float32 `json:"max_id"`
+	SinceId     int     `json:"since_id"`
+	RefreshURL  string  `json:"refresh_url"`
+	NextPage    string  `json:"next_page"`
+	Page        int     `json:"page"`
+	CompletedIn float32 `json:"completed_in"`
+	Query       string  `json:"query"`
 }
 
 type Result struct {
-        Profile_image_url string;
-        Created_at string;
-        From_user string;
-        Text string;
-        Id float32;
-        From_user_id int;
-        Iso_language_code string;
-        Source string;
+	ProfileImageUrl string `json:"profile_image_url"`
+	CreatedAt       string `json:"created_at"`
+	FromUser        string `json:"from_user"`
+	Text            string `json:"text"`
+	Id              float32 `json:"id"`
+	FromUserId      int    `json:"from_user_id"`
+	ISOLanguageCode string `json:"iso_language_code"`
+	Source          string `json:"source"`
 }
 
-
-func ts(s string, n int)(twits []string) {
-                r,err := http.Get(fmt.Sprintf(queryURI, "json", url.QueryEscape(s), n));
-                if err == nil  {
-                        fmt.Fprintf(os.Stderr, "\nSearching for '%s' (%d results in %s)\n",s, n, "json");
-                        if r.StatusCode == http.StatusOK {
-                                        twits = readjson(r.Body);
-                        } else {
-                                fmt.Fprintf(os.Stderr,
-                                "Twitter is unable to search for %s as %s (%s)\n", s, "json",r.Status);
-                        }
-                        r.Body.Close();
-                } else {
-                        fmt.Fprintf(os.Stderr, "%v\n", err);
-                }
-                return;
+func ts(s string, n int) []string {
+	r, err := http.Get(fmt.Sprintf(queryURI, "json", url.QueryEscape(s), n))
+	if err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		return nil
+	}
+	defer r.Body.Close()
+	fmt.Fprintf(os.Stderr, "Searching for '%s' (%d results in %s)\n", s, n, "json")
+	if r.StatusCode != http.StatusOK {
+		fmt.Fprintf(os.Stderr, "Twitter is unable to search for %s as %s (%s)\n", s, "json", r.Status)
+		return nil
+	}
+	return readjson(r.Body)
 }
 
+func readjson(r io.Reader) []string {
+	b, err := ioutil.ReadAll(r)
+	fmt.Println(string(b))
+	if err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		return nil
+	}
+	var twitter JTweets
+	err = json.Unmarshal(b, &twitter)
+	if err != nil {
+		fmt.Fprintln(os.Stderr, "Unable to parse the JSON feed:", err)
+		return nil
+	}
 
-func readjson(r io.ReadCloser)(twits []string) {
-var twitter JTweets;
-        var b []byte;
-        b, err := ioutil.ReadAll(r);
-        fmt.Printf(string(b));
-        if err == nil {
-               error:= json.Unmarshal(b, &twitter);
-                if error == nil {
-                        for i := 0; i < len(twitter.Results); i++ {
-                                fmt.Printf(outputfmt,
-                                        /*twitter.Results[i].From_user,*/ twitter.Results[i].Text);
-                                        twits = append(twits, twitter.Results[i].Text);
-                        }
-                } else {
-                        fmt.Fprintf(os.Stderr, "Unable to parse the JSON feed %v\n",error);
-                }
-        } else {
-                fmt.Fprintf(os.Stderr, "%v\n", err);
-        }
-        return;
+	twits := make([]string, len(twitter.Results))
+	for i, result := range twitter.Results {
+		fmt.Println(result.Text)
+		twits[i] = result.Text
+	}
+	return twits
 }
-
-
 
 func main() {
-        flag.Parse();
-         file, e := ioutil.ReadFile(*payload)
-                if e != nil {
-                        fmt.Printf("File error: %v\n", e)
-                        os.Exit(1)
-                }
-                fmt.Printf("Payload:%s\n", string(file))
-                var p Payload;
-                error:= json.Unmarshal(file, &p);
-                if error == nil {
-                    query = p.Query;
-                }
-        twits := ts(query, 20);
+	flag.Parse()
+	file, err := ioutil.ReadFile(*payload)
+	if err != nil {
+		fmt.Fprintln(os.Stderr, "File error:", err)
+		os.Exit(1)
+	}
+	fmt.Println("Payload:", string(file))
+	var p Payload
+	err = json.Unmarshal(file, &p)
+	query := p.Query
+	if err != nil {
+		query = "iron.io"
+	}
+	twits := ts(query, 20)
 
-        if len(twits) > 0 {
-            fmt.Printf("Writing to file:%s",twits[0])
+	if len(twits) > 0 {
+		fmt.Println("Writing to file:", twits[0])
 
-            err:= ioutil.WriteFile("sample_file.txt", []byte(twits[0]),0644);
-                if err != nil {
-                    fmt.Printf("Error Writing to file:%s",err)
-                }
-        }
+		err := ioutil.WriteFile("sample_file.txt", []byte(twits[0]), 0644)
+		if err != nil {
+			fmt.Println("Error Writing to file:", err)
+		}
+	}
 }
