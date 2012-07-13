@@ -14,7 +14,7 @@ The `hello_mono.worker` defines the worker and it's dependencies. For this examp
 is the hello.exe file so that's all that's in it. Use the iron_worker command line interface (CLI) to upload
 the worker.
 
-    iron_worker upload hello_mono
+    iron_worker upload hello
 
 ## Now you can queue up tasks for it!
 
