@@ -1,3 +1,3 @@
 Mono now supported!
 
-See [hello_worker](hello_worker/) to get started.
+See [hello_worker](./hello_worker/) to get started.
