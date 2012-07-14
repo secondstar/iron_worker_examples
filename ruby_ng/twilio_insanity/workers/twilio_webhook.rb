@@ -6,7 +6,7 @@ require 'twilio-ruby'
 
 parsed = CGI::parse(payload)
 number = parsed["From"][0]
-number = parsed["Body"][0]
+body = parsed["Body"][0]
 
 
 puts "-------------- RECEIVING REQUEST ---------------"
