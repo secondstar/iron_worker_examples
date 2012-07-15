@@ -1,6 +1,14 @@
 # Hipchat to GoogleDrive export
 
-This worker export history from your hipchat account to your GoogleDrive spreadsheets (one spreadsheet per months)
+## Overview
+
+This worker export history from your hipchat account to your GoogleDrive spreadsheets (one spreadsheet per month).
+
+## Quick Start
+
+Required gems:
+
+* google_drive
 
 1. Be sure you've setup your Iron.io credentials, see main [README.md](https://github.com/iron-io/iron_worker_examples).
 1. Copy config_example.yml to config.yml and modify to your liking.

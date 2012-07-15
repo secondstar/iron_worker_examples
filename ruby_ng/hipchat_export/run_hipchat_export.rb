@@ -1,12 +1,15 @@
 require 'iron_worker_ng'
 require 'yaml'
+require 'uber_config'
 
 #IronCore::Logger.logger.level = ::Logger::DEBUG
 
 # Create IronWorker client
 client = IronWorkerNG::Client.new
 
-params = YAML.load_file("config.yml")
+params = UberConfig.load()
+puts 'CONFIG: ' + params.inspect
+raise "No params!" unless params
 
 task = client.tasks.create('HipchatExport', params)
 

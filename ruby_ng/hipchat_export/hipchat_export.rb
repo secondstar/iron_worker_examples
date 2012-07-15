@@ -65,7 +65,17 @@ open_rooms.each do |room|
   import_from = Time.at(room["created"])
   if ws
     puts "Worksheet found!"
-    import_from = Time.parse(ws.list.entries.last["date"]) if ws.list.entries.last
+    last_entry = ws.list.entries.last
+    if last_entry
+      last_date = last_entry["date"]
+      puts "Last date used: #{last_date}"
+      if last_date.length < 12
+        import_from = Date.strptime(last_date, "%m/%d/%Y").to_time
+      else
+        import_from = Time.parse(last_date)
+      end
+    end
+    puts "import_from: #{import_from}"
   else
     puts "No such worksheet, creating new"
     ws = file.add_worksheet(room_name)
@@ -80,10 +90,16 @@ open_rooms.each do |room|
     date_to_get = (end_date - i.days)
     formatted_date = date_to_get.strftime('%Y-%m-%d')
     puts "Getting messages #{i} days ago - #{formatted_date}"
-    messages = rooms_history[room_name]= hipchat.rooms_history(room_name, formatted_date, 'UTC').parsed_response["messages"]
+    resp = hipchat.rooms_history(room_name, formatted_date, 'UTC').parsed_response
+    messages = rooms_history[room_name]= resp["messages"]
     puts "Found messages:#{messages.inspect}"
-    if messages && messages.size > 0
-      messages.each_with_index do |m,i|
+    if !messages
+      # something is wrong
+      puts "NO MESSAGES!"
+      p resp
+      break
+    elsif messages.size > 0
+      messages.each_with_index do |m, i|
         next if Time.parse(m["date"]) <= import_from
         puts "Pushing message :#{m.inspect}"
         ws.list.push({:date => m["date"], :from => m["from"]["name"], :message => m["message"]})
@@ -91,7 +107,7 @@ open_rooms.each do |room|
       end
       ws.save
     else
-      ws.list.push({:date => date_to_get.strftime("%m/%d/%Y"), :from => "--", :message => "No messages"})
+      ws.list.push({:date => date_to_get.strftime('%Y-%m-%d'), :from => "--", :message => "No messages"})
       ws.save
     end
   end
