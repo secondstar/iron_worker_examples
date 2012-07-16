@@ -2,6 +2,7 @@ require 'active_support/core_ext'
 require 'hipchat-api'
 require 'google_drive'
 require 'oauth2'
+require 'time'
 
 ####################
 #PARAMS
@@ -37,7 +38,8 @@ hipchat = HipChat::API.new(hipchat_token)
 end_date = Time.now
 start_date = end_date - range_ago.month
 rooms = hipchat.rooms_list
-p rooms
+#p rooms
+puts "Found #{rooms.size} rooms"
 open_rooms = rooms.to_hash["rooms"].select { |r| !r["is_private"] }
 rooms_history = {}
 
@@ -56,6 +58,7 @@ end
 
 open_rooms.each do |room|
   room_name = room["name"]
+  puts "Room: #{room_name} - private? #{room["is_private"]}"
   puts "Looking for a worksheet: #{room_name}"
   if exclude_rooms.include?(room_name)
     puts "Skipping room."
@@ -69,10 +72,11 @@ open_rooms.each do |room|
     if last_entry
       last_date = last_entry["date"]
       puts "Last date used: #{last_date}"
+      # eg: Last date used: 7/3/2012 0:19:22
       if last_date.length < 12
         import_from = Date.strptime(last_date, "%m/%d/%Y").to_time
       else
-        import_from = Time.parse(last_date)
+        import_from = DateTime.strptime(last_date, "%m/%d/%Y %H:%M:%S")
       end
     end
     puts "import_from: #{import_from}"
@@ -92,7 +96,7 @@ open_rooms.each do |room|
     puts "Getting messages #{i} days ago - #{formatted_date}"
     resp = hipchat.rooms_history(room_name, formatted_date, 'UTC').parsed_response
     messages = rooms_history[room_name]= resp["messages"]
-    puts "Found messages:#{messages.inspect}"
+    #puts "Found messages:#{messages.inspect}"
     if !messages
       # something is wrong
       puts "NO MESSAGES!"
@@ -100,9 +104,10 @@ open_rooms.each do |room|
       break
     elsif messages.size > 0
       messages.each_with_index do |m, i|
-        next if Time.parse(m["date"]) <= import_from
+        d = DateTime.parse(m["date"])
+        next if d <= import_from
         puts "Pushing message :#{m.inspect}"
-        ws.list.push({:date => m["date"], :from => m["from"]["name"], :message => m["message"]})
+        ws.list.push({:date => d.strftime("%m/%d/%Y %H:%M:%S"), :from => m["from"]["name"], :message => m["message"]})
         ws.save if i % 50 == 0
       end
       ws.save

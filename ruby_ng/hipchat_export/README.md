@@ -8,7 +8,7 @@ This worker export history from your hipchat account to your GoogleDrive spreads
 
 Required gems:
 
-* google_drive
+* gem install uber_config hipchat-api google_drive
 
 1. Be sure you've setup your Iron.io credentials, see main [README.md](https://github.com/iron-io/iron_worker_examples).
 1. Copy config_example.yml to config.yml and modify to your liking.
