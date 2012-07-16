@@ -12,11 +12,11 @@ body = parsed["Body"][0]
 puts "-------------- RECEIVING REQUEST ---------------"
 puts "PAYLOAD: #{payload}"
 puts "Parsed Payload: #{parsed}"
-puts "FROM: #{from}"
+puts "FROM: #{number}"
 puts "BODY: #{body}"
 puts "------------------------------------------------"
 
-number.reverse!.chop!.chop!.reverse! if number[0]="+"
+number.reverse!.chop!.chop!.reverse! if number[0] == "+"
 
 
 def shaunism

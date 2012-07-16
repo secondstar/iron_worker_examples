@@ -16,22 +16,24 @@ end
 
 get '/start' do
   number = params[:number]
-  cache = get_cache("insanity-#{number}")
+
+  config = YAML.load_file("config/config.yml")
+  worker_client = IronWorkerNG::Client.new(:token => config['iron']['token'], :project_id => config['iron']['project_id'])
+  cache_client = IronCache::Client.new(:token => config['iron']['token'], :project_id => config['iron']['project_id'])
+  cache = cache_client.cache("insanity-#{number}")
+
   load_schedule(cache)
   cache.put("day", 0)
 
-  config = YAML.load_file("config/config.yml")
-  client = IronWorkerNG::Client.new(:token => config['iron']['token'], :project_id => config['iron']['project_id'])
-
-  client.schedules.create('SendInsanity',
-                          {
-                            :number => number
-                          },
-                          {
-                            :start_at => Time.now,
-                            :run_times => 5,
-                            :run_every => 60
-                          })
+  worker_client.schedules.create('SendInsanity',
+                                 {
+                                   :number => number
+                                 },
+                                 {
+                                   :start_at => Time.now,
+                                   :run_times => 60,
+                                   :run_every => 3600*24
+                                 })
 
   redirect '/done'
 end
@@ -41,15 +43,7 @@ get '/done' do
 end
 
 
-
 private
-
-
-def get_cache(name)
-  puts "Creating or Getting Cache...."
-  ironcache = IronCache::Client.new
-  ironcache.cache(name)
-end
 
 
 def load_schedule(cache)
