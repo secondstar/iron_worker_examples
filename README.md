@@ -19,6 +19,8 @@ You can get your token from: https://hud.iron.io/tokens . **Be sure to keep your
 
 You can get your project_id from your project list in https://hud.iron.io/tq/projects
 
+For full details on configuration, see [Configuration article](http://dev.iron.io/articles/configuration/) in [Dev Center](http://dev.iron.io/).
+
 ## Now Run the Examples and Learn from Them
 
 See the README's in each of the examples directories to run and review the code to learn how it works.
