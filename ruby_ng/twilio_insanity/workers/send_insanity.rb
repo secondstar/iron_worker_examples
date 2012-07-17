@@ -5,8 +5,8 @@ require 'yaml'
 config = YAML.load_file("config.yml")
 account_sid = config['twilio']['account_sid']
 auth_token = config['twilio']['auth_token']
-project_id = config['iron']['project_id']
-token = config['iron']['token']
+project_id = params[:config][:project_id]
+token = params[:config][:token]
 number = params[:number]
 
 twilio = Twilio::REST::Client.new account_sid, auth_token
