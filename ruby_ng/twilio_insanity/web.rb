@@ -18,22 +18,25 @@ get '/start' do
   number = params[:number]
 
   config = YAML.load_file("config/config.yml")
-  worker_client = IronWorkerNG::Client.new(:token => config['iron']['token'], :project_id => config['iron']['project_id'])
-  cache_client = IronCache::Client.new(:token => config['iron']['token'], :project_id => config['iron']['project_id'])
-  cache = cache_client.cache("insanity-#{number}")
+  config_iron = JSON.parse(File.read("workers/iron.json"))
 
+  worker_client = IronWorkerNG::Client.new(:token => config_iron['token'], :project_id => config_iron['project_id'])
+  cache_client = IronCache::Client.new(:token => config_iron['token'], :project_id => config_iron['project_id'])
+
+  cache = cache_client.cache("insanity-#{number}")
   load_schedule(cache)
   cache.put("day", 0)
 
   worker_client.schedules.create('SendInsanity',
-                                 {
-                                   :number => number
-                                 },
-                                 {
-                                   :start_at => Time.now,
-                                   :run_times => 60,
-                                   :run_every => 3600*24
-                                 })
+                          {
+                            :number => number,
+                            :config => worker_client.api.options
+                          },
+                          {
+                            :start_at => Time.now,
+                            :run_times => 5,
+                            :run_every => 60
+                          })
 
   redirect '/done'
 end

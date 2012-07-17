@@ -35,10 +35,11 @@ def move_day_forward(number)
   puts "Moving Day Forward"
 
   config = YAML.load_file("config.yml")
+  config_iron = JSON.parse(File.read("iron.json"))
   twilio = Twilio::REST::Client.new config['twilio']['account_sid'], config['twilio']['auth_token']
 
   puts "Creating or Getting Cache...."
-  ironcache = IronCache::Client.new(:project_id => config['iron']['project_id'], :token => config['iron']['token'])
+  ironcache = IronCache::Client.new(:project_id => config_iron['project_id'], :token => config_iron['token'])
   cache = ironcache.cache("insanity-#{number}")
 
   puts "Incrementing Day Cache in cache #{cache.name}"
