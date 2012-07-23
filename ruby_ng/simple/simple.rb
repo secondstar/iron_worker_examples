@@ -65,7 +65,7 @@ code_infos = client.codes.list(:per_page => 100, # 30 by default, 100 at max
                                :page => 0,
                                :from_time => (Time.now - 60 * 60).to_i)
 # which is array of OpenStructs with several useful fields
-puts '#{code_infos.size} codes created last hour'
+puts "#{code_infos.size} codes created last hour"
 
 # with some info about code package
 code_info = code_infos.find{|c| c.name == 'transmogrify'}
