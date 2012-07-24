@@ -4,13 +4,13 @@
 
 Using mono, you would run:
 
-    gmcs hello.cs
+    gmcs -r:System.Web.Extensions.dll hello.cs
 
 Or build using Microsoft tools.
 
 ## Upload Worker
 
-The `hello_mono.worker` defines the worker and it's dependencies. For this example, the only dependency
+The `hello_mono.worker` defines the worker and its dependencies. For this example, the only dependency
 is the hello.exe file so that's all that's in it. Use the iron_worker command line interface (CLI) to upload
 the worker.
 
