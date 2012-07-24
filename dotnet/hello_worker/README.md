@@ -18,5 +18,5 @@ the worker.
 
 ## Now you can queue up tasks for it!
 
-    iron_worker queue HelloMono -p '{"query":"xbox"}'
+    iron_worker queue hello -p '{"query":"xbox"}'
 
