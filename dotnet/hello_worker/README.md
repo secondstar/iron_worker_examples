@@ -8,7 +8,7 @@ This is one of the simplest workers you can run:
 1. Run `iron_worker upload hello` to upload the worker code package to IronWorker. This reads the `hello.worker` file to build the package. .worker files define the worker dependencies.
 1. Queue up a task:
   1. From command line: `iron_worker queue hello --payload '{"query":"xbox"}'`
-  1. From code: set your token and project_id, compile and run enqueue.cs: `gmcs enqueue.cs; mono enqueue.exe`
+  1. From code: Open `enqueue.cs` and edit it to set your token and project_id. Then compile and run it (mono users: `gmcs enqueue.cs; mono enqueue.exe`).
 1. Look at [HUD](https://hud.iron.io) to view your tasks running, check logs, etc.
 1. Schedule a task:
   1. From command line: `iron_worker schedule hello --payload '{"query":"heyaa"}' --delay 5 --timeout 60 --start-at "12:30" --run-times 5 --run-every 70`
