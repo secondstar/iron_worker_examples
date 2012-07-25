@@ -19,7 +19,7 @@ public class EnqueueTask
         req.ContentType = "application/json";
         //setting oauth authorization
         req.Headers.Add("Authorization", "OAuth " + token);
-        var paramz = "{\"tasks\":[{\"code_name\":\"hello\",\"payload\":\"{'query':'Heyyaa'}\"}],\"delay\":\"5\"}";
+        var paramz = "{\"tasks\":[{\"code_name\":\"hello\",\"payload\":\"{'query':'xbox'}\"}],\"delay\":\"5\"}";
 
         // Encode the parameters as form data:
         var formData = UTF8Encoding.UTF8.GetBytes(paramz);
