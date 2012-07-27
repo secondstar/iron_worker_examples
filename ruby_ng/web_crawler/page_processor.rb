@@ -3,7 +3,7 @@ require 'nokogiri'
 require 'iron_cache'
 require 'iron_mq'
 
-def make_absolute( href, root )
+def make_absolute(href, root)
   return unless href
   puts "Making absolute:#{href} with root:#{root}"
   URI.parse(root).merge(URI.parse(href)).to_s rescue nil
@@ -35,12 +35,12 @@ def process_words(doc)
   #splitting by words
   words = text.split(/[^a-zA-Z]/)
   #removing empty string
-  words.delete_if{|e| e.empty?}
+  words.delete_if { |e| e.empty? }
   #creating hash
   freqs = Hash.new(0)
   #calculating stats
   words.each { |word| freqs[word] += 1 }
-  freqs.sort_by {|x,y| y }
+  freqs.sort_by { |x, y| y }
 end
 
 def process_page(url)
@@ -48,7 +48,7 @@ def process_page(url)
   doc = Nokogiri(open(url))
   images, largest_image, list_of_images = process_images(doc)
   #processing links an making them absolute
-  links = process_links(doc).map{|link| make_absolute( link['href'], url )}.compact
+  links = process_links(doc).map { |link| make_absolute(link['href'], url) }.compact
   css = process_css(doc)
   words_stat = process_words(doc)
   puts "Number of images on page:#{images.count}"
@@ -63,27 +63,26 @@ def process_page(url)
                                                   :number_of_css => css.count,
                                                   :number_of_links => links.count,
                                                   :list_of_images => list_of_images,
-                                                  :words_stat => words_stat}.to_json)
+                                                  :words_stat => words_stat,
+                                                  :timestamp => Time.now,
+                                                  :processed_counter => 1}.to_json)
 
 end
 
-def get_list_of_urls
+def get_list_of_messages
   #100 pages per worker at max
   max_number_of_urls = 100
-  urls = []
-  n = 0
-  while n < max_number_of_urls
-    puts "Gettig message from IronMQ"
-    msg = @iron_mq_client.messages.get()
-    puts "Got message from queue - #{msg.inspect}"
-    break unless msg
-    puts "Adding #{msg.body} to list of urls"
-    urls << msg.body
-    puts "Deleting message from queue"
-    msg.delete
-    n+=1
-  end
-  urls
+  puts "Gettig messages from IronMQ"
+  messages = @iron_mq_client.messages.get(:n => max_number_of_urls, :timeout => 100)
+  puts "Got messages from queue - #{messages.count}"
+  messages
+end
+
+def increment_counter(url, cache_item)
+  puts "Page already processed, so bypassing it and incrementing counter"
+  item = JSON.parse(cache_item)
+  item["processed_counter"]+=1 if item["processed_counter"]
+  @iron_cache_client.items.put(CGI::escape(url), item.to_json)
 end
 
 
@@ -92,9 +91,17 @@ end
 @iron_mq_client = IronMQ::Client.new(:token => params['iw_token'], :project_id => params['iw_project_id'])
 
 #getting list of urls
-urls = get_list_of_urls
+messages = get_list_of_messages
 
 #processing each url
-urls.each do |url|
-  process_page(CGI::unescape(url))
+messages.each do |message|
+  url = CGI::unescape(message.body)
+  #getting page details if page already processed
+  cache_item = @iron_cache_client.items.get(CGI::escape(url))
+  if cache_item
+    process_page(url)
+  else
+    increment_counter(url, cache_item)
+  end
+  message.delete
 end
