@@ -72,7 +72,7 @@ end
 def get_list_of_messages
   #100 pages per worker at max
   max_number_of_urls = 100
-  puts "Gettig messages from IronMQ"
+  puts "Getting messages from IronMQ"
   messages = @iron_mq_client.messages.get(:n => max_number_of_urls, :timeout => 100)
   puts "Got messages from queue - #{messages.count}"
   messages
