@@ -1,3 +1,4 @@
-runtime 'go'
-name 'Goworker101'
-exec 'worker101.go'
+runtime 'binary'
+exec 'worker101.sh'
+file 'worker101.go'
+build 'go build worker101.go'
