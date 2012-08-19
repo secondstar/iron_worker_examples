@@ -26,24 +26,24 @@ type Payload struct {
 
 type JTweets struct {
 	Results     []Result `json:"results"`
-	MaxId       float32 `json:"max_id"`
-	SinceId     int     `json:"since_id"`
-	RefreshURL  string  `json:"refresh_url"`
-	NextPage    string  `json:"next_page"`
-	Page        int     `json:"page"`
-	CompletedIn float32 `json:"completed_in"`
-	Query       string  `json:"query"`
+	MaxId       float32  `json:"max_id"`
+	SinceId     int      `json:"since_id"`
+	RefreshURL  string   `json:"refresh_url"`
+	NextPage    string   `json:"next_page"`
+	Page        int      `json:"page"`
+	CompletedIn float32  `json:"completed_in"`
+	Query       string   `json:"query"`
 }
 
 type Result struct {
-	ProfileImageUrl string `json:"profile_image_url"`
-	CreatedAt       string `json:"created_at"`
-	FromUser        string `json:"from_user"`
-	Text            string `json:"text"`
+	ProfileImageUrl string  `json:"profile_image_url"`
+	CreatedAt       string  `json:"created_at"`
+	FromUser        string  `json:"from_user"`
+	Text            string  `json:"text"`
 	Id              float32 `json:"id"`
-	FromUserId      int    `json:"from_user_id"`
-	ISOLanguageCode string `json:"iso_language_code"`
-	Source          string `json:"source"`
+	FromUserId      int     `json:"from_user_id"`
+	ISOLanguageCode string  `json:"iso_language_code"`
+	Source          string  `json:"source"`
 }
 
 func ts(s string, n int) []string {

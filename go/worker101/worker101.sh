@@ -1,1 +1,1 @@
-./worker101
+./worker101 $@
