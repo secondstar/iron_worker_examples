@@ -1,8 +1,8 @@
-# WebCrawler Worker
+# WebCrawler Nokogiri Worker
 
-This is an example of web crawler that just get all links on given site and follow them (recursively queue new workers if possible) to find new links and so on with limited deep and only on given domain.
+This is an example of web crawler based on Nokogiri, that just get all links on given site and follow them (recursively queue new workers if possible) to find new links and so on with limited deep and only on given domain.
 After collecting links crawler put each link into iron_cache and in iron_mq to process it with PageProcessor.
-Page processor make simple processing like - extracting all links,count number of images/css find largest image on page and calculate frequency of each word on page.
+Page processor make simple processing using Nokogiri parser - extracting all links,count number of images/css find largest image on page and calculate frequency of each word on page.
 Additional page processing could be processed within a single worker or other workers could be used (to keep the workers
 task specific).
 To orchestrate this, you could fire up workers from the page processor or use multiple message queues in IronMQ and
