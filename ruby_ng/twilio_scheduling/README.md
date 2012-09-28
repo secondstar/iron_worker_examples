@@ -19,7 +19,7 @@ enter your own mobile phone number so you can receive the text.
 
 ## Sending a Text
 
-- from command line: `iron_worker upload sms`
+- upload the worker if it hasn't been uploaded yet, from command line: `iron_worker upload sms`
 - now run `ruby enqueue_sms.rb` which will queue up an sms task
 - you should get a text in a few seconds.
 
@@ -27,7 +27,7 @@ Take a look at enqueue_sms.rb for the code that queues up the task and hud.iron.
 
 ## Sending a text in the future
 
-- from command line: `iron_worker upload sms`
+- upload the worker if it hasn't been uploaded yet, from command line: `iron_worker upload sms`
 - now run `ruby enqueue_sms.rb 60` which will queue up an sms task that will run in 60 seconds
 - you should get a text in 60 seconds.
 
