@@ -107,33 +107,36 @@ def merge_images(col_num, row_num, file_list)
 end
 
 def upload_file(filename)
-  filepath = filename
-  puts "\nUploading the file to s3..."
-  s3 = Aws::S3Interface.new(@params['aws_access'], @params['aws_secret'])
-  s3.create_bucket(@params['aws_s3_bucket_name'])
-  response = s3.put(@params['aws_s3_bucket_name'], filename, File.open(filepath))
-  if response == true
-    puts "Uploading succesful."
-    link = s3.get_link(@params['aws_s3_bucket_name'], filename)
-    puts "\nYou can view the file here on s3:",link
-  else
-    puts "Error placing the file in s3."
+  unless params['disable_network']
+    filepath = filename
+    puts "\nUploading the file to s3..."
+    s3 = Aws::S3Interface.new(params['aws_access'], params['aws_secret'])
+    s3.create_bucket(params['aws_s3_bucket_name'])
+    response = s3.put(params['aws_s3_bucket_name'], filename, File.open(filepath))
+    if response == true
+      puts "Uploading succesful."
+      link = s3.get_link(params['aws_s3_bucket_name'], filename)
+      puts "\nYou can view the file here on s3:", link
+    else
+      puts "Error placing the file in s3."
+    end
+    puts "-"*60
   end
-  puts "-"*60
 end
 
 def download_image
   filename = 'ironman.jpg'
-  filepath = filename
-  File.open(filepath, 'wb') do |fout|
-    open(@params['image_url']) do |fin|
-      IO.copy_stream(fin, fout)
+  unless params['disable_network']
+    filepath = filename
+    File.open(filepath, 'wb') do |fout|
+      open(params['image_url']) do |fin|
+        IO.copy_stream(fin, fout)
+      end
     end
   end
   filename
 end
 
-@params = params
 
 puts "Downloading image"
 
