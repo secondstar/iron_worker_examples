@@ -1,9 +1,0 @@
-#sudoventures backup-agent
-iron_worker queue ec2-backup-to-ami --payload "export AWS_ACCESS_KEY_ID=AKIAIFYKD3RALZG7ASCA && export AWS_SECRET_ACCESS_KEY=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"
-
-iron_worker schedule ec2-backup-to-ami --start-at "2012-11-10T00:03:00-00:00" --run-every 86400 --payload "export AWS_ACCESS_KEY_ID=AKIAIFYKD3RALZG7ASCA && export AWS_SECRET_ACCESS_KEY=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"
-
-#cityindex-production david.laing
-iron_worker queue ec2-backup-to-ami --payload "export AWS_ACCESS_KEY_ID=AKIAI4A3GIE6GNLYAXZA && export AWS_SECRET_ACCESS_KEY=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"
-
-iron_worker schedule ec2-backup-to-ami --start-at "2012-11-10T00:03:00-00:00" --run-every 86400 --payload "export AWS_ACCESS_KEY_ID=AKIAIFYKD3RALZG7ASCA && export AWS_SECRET_ACCESS_KEY=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"
