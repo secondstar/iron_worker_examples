@@ -1,3 +1,3 @@
 require 'iron_core'
-require 'jeweler2'
+require 'bundler'
 puts "hello"

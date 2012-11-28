@@ -19,3 +19,4 @@ hipchat = HipChat::API.new(webhook_config['hipchat']['api_key'])
 parsed['commits'].each do |c|
   puts hipchat.rooms_message(webhook_config['hipchat']['room'], 'GithubHook', "Rev: <a href=\"#{c['url']}\">#{c['id'][0,9]}</a> - #{c['message']}", true).body
 end
+puts 'Done'

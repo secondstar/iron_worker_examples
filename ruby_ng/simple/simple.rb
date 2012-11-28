@@ -24,14 +24,13 @@ code = IronWorkerNG::Code::Base.new do
   runtime 'ruby' # not necessary here, since 'ruby' is default runtime
   exec 'sample_worker.rb'
 end
-# if not specified, name defaults to worker name converted
-# from underscore to camel style
-puts "default name is #{code.name}" # 'SampleWorker'
+# if not specified, name defaults to executable without extension
+puts "default name is #{code.name}" # 'sample_worker'
 
 # still can pass name in constructor and executable
 code = IronWorkerNG::Code::Base.new(:name => 'transmogrify',
                                     :exec => 'sample_worker.rb')
-puts "name is #{code.name}, exec is #{code.exec.path}"
+puts "from hash: name is #{code.name}, exec is #{code.exec.path}"
 # name is transmogrify, exec is sample_worker.rb
 
 # or in block (like other intance methods)
@@ -39,7 +38,7 @@ code = IronWorkerNG::Code::Base.new do
   name 'transmogrify'
   exec 'sample_worker.rb'
 end
-puts "name is #{code.name}, exec is #{code.exec.path}"
+puts "from block: name is #{code.name}, exec is #{code.exec.path}"
 # name is transmogrify, exec is sample_worker.rb
 
 # once worker merged, following attempts will be ignored
@@ -48,7 +47,7 @@ puts "exec is #{code.exec.path}" # exec is sample_worker.rb
 
 # if worker requires some gems,
 # we can specify worker dependency on gem
-code.merge_gem('jeweler2')
+code.merge_gem('bundler')
 # or on Gemfile, which is recommended
 code.merge_gemfile('Gemfile',
                    :default, :extra) # remaining arguments are groups to be used
@@ -73,7 +72,7 @@ puts "transmogrify code info #{code_info.marshal_dump}"
 
 # other way to get such info is codes.get:
 code_info = client.codes_get(code_info.id)
-puts "transmogrify code info #{code_info.marshal_dump}"
+puts "another transmogrify code info #{code_info.marshal_dump}"
 
 # create task to run the bundle
 task = client.tasks_create('transmogrify')
@@ -90,6 +89,3 @@ puts "task finished with status #{task.status}"
 # retriving task log
 log = client.tasks_log(task.id)
 puts log
-
-# cleanup
-client.codes_delete(code_info.id)

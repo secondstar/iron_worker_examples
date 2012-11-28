@@ -6,6 +6,6 @@ puts "Queueing slave workers..."
 slaves = params['slaves']
 slaves.keys.each do |slave|
   puts "Queueing #{slave} with params #{slaves[slave].inspect}"
-  client.tasks.create('SlaveWorker', slaves[slave])
+  client.tasks.create('slave', slaves[slave])
 end
 puts 'Done'

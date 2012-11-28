@@ -7,4 +7,9 @@ slaves = {
   'slave two' => {'hello' => 'world'}
 }
 
-client.tasks.create('MasterWorker', 'slaves' => slaves, 'token' => client.api.token, 'project_id' => client.api.project_id)
+task_id = client.tasks_create('master', 'slaves' => slaves, 'token' => client.api.token, 'project_id' => client.api.project_id).id
+puts "task id = #{task_id}"
+
+client.tasks_wait_for(task_id)
+log = client.tasks.log(task_id)
+puts log
