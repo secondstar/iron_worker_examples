@@ -1,6 +1,4 @@
 require 'open-uri'
-require 'RMagick'
-
 require 'aws'
 require 'subexec'
 require 'mini_magick'
@@ -94,15 +92,9 @@ end
 
 def merge_images(col_num, row_num, file_list)
   output_filename = "merged_file.jpg"
-  ilg = Magick::ImageList.new
-  col_num.times do |col|
-    il = Magick::ImageList.new
-    row_num.times do |row|
-      il.push(Magick::Image.read(file_list[col][row]).first)
-    end
-    ilg.push(il.append(true))
-    ilg.append(false).write(output_filename)
-  end
+  head, *tail = file_list.transpose.flatten
+  h = MiniMagick::Image.open(head)
+  h.run_command("montage", "-mode", "concatenate", "-tile", "#{row_num}x#{col_num}", head, *tail, output_filename)
   output_filename
 end
 
