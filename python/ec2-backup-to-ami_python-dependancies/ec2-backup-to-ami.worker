@@ -1,0 +1,7 @@
+runtime "binary"
+
+build 'pip install --install-option="--prefix=`pwd`/pips" git+https://github.com/sopel/botocross.git'
+
+file "ec2-backup-to-ami.sh"
+exec "ec2-backup-to-ami.sh"
+
