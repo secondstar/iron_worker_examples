@@ -1,0 +1,8 @@
+runtime "ruby"
+exec "pgconnect.rb"
+
+full_remote_build true
+
+gem 'iron_mq'
+gem 'pg'
+
