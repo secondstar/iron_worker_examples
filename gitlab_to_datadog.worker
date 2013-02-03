@@ -1,0 +1,5 @@
+runtime "ruby"
+full_remote_build true
+file "datadog.yml"
+exec "gitlab_to_datadog.rb"
+gem "dogapi"
