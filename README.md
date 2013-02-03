@@ -5,10 +5,10 @@ This example demonstrates starting a worker from a GitlabHQ webhook.
 1. Setup your Iron.io credentials
 2. Add Thyour Datadog API credentials to a file `datadog.yml`:
 
->```
-datadog:
-    api_key: "your_key_here"
-```
+    ```yaml
+    datadog:
+        api_key: "your_key_here"
+    ```
 3. `iron_worker upload gitlab_to_datadog`
 4. Add the webhooks url to the web hooks page in a gitlab project.
 5. Test it!
