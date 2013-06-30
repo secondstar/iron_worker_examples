@@ -2,6 +2,7 @@ merge_gem 'iron_worker_ng'
 merge_gem 'iron_cache'
 merge_gem 'iron_mq'
 merge_gem 'nokogiri'
+merge_gem 'typhoeus'
 file 'url_utils.rb'
 exec "web_crawler.rb"
 name 'WebCrawler'
