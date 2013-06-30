@@ -13,7 +13,7 @@ def process_page(url)
   #adding url to cache
   @iron_cache_client.items.put(CGI::escape(url), {:status => "found"}.to_json)
   #pushing url to iron_mq to process page
-  result = @iron_mq_client.messages.post(CGI::escape(url))
+  result = @iron_mq_client.post(CGI::escape(url))
   puts "Message put in queue #{result}"
 end
 
