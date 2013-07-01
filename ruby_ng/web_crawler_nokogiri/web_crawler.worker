@@ -1,3 +1,4 @@
+remote
 merge_gem 'iron_worker_ng'
 merge_gem 'iron_cache'
 merge_gem 'iron_mq'
